@@ -16,7 +16,8 @@ const Selector = (props) =>{
                 {props.title}
             </div>
             <div className="selector-input flex-center">
-                <select>
+                <select onChange={(e)=>props.onchange(e.target.value)}>
+                    <option value={null}>Select</option>
                    {options}
                 </select>
             </div>

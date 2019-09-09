@@ -8,7 +8,7 @@ import Table from './Table'
 
 const Transform = (props) =>{
 
-    let columns = useSelector(state => state.columns)
+    let columns = useSelector(state => state.columns),i,j;
     let [method,methodState] = useState([
             {name:"Imputer"},
             {name:"MinMax Scaler"},
@@ -21,6 +21,7 @@ const Transform = (props) =>{
             tablePreview:"Select Feature",
             methodPreview:"Select Method"
         })
+    
 
 
     const selectLabel = (e) =>{
@@ -47,7 +48,7 @@ const Transform = (props) =>{
                 console.log(response.data.column)
                 rendState({
                     tablePreview:<Table columns={[{name:e}]} data={response.data.column} />,
-                    methodPreview:rend.methodPreview
+                    methodPreview:"Select Method"
                 })
             })
         }
@@ -75,11 +76,18 @@ const Transform = (props) =>{
                     save:false
                 }
             }).then(response =>{
-                console.log(response.data)
-                rendState({
-                    tablePreview:<Table columns={[{name:window.column}]} data={response.data.column} />,
-                    methodPreview:<Table columns={[{name:e}]} data={response.data.trans} />
-                })
+                if (e === "One Hot Encode"){
+                    rendState({
+                        tablePreview:<Table columns={[{name:window.column}]} data={response.data.column} />,
+                        methodPreview:<Table columns={response.data.trans.columns} data={response.data.trans.values} method={e} />
+                    })
+                }
+                else{
+                    rendState({
+                        tablePreview:<Table columns={[{name:window.column}]} data={response.data.column} />,
+                        methodPreview:<Table columns={[{name:e}]} data={response.data.trans} />
+                    })
+                }
             })
         }
 
@@ -98,11 +106,38 @@ const Transform = (props) =>{
                     save:true
                 }
             }).then(response =>{
-                console.log(response.data)
+                let cols=response.data.cols.filter((col,k)=>{
+                    for(i in columns){
+                        if (columns[i].name === col){
+                            return false
+                        }
+                    }
+                    return true
+                });
+                for(i in cols){
+                    columns.push({
+                        name:cols[i],
+                        type:"num",
+                        nunique:2,
+                        dtype:"int32",
+                        nullvals:0
+                    })
+                }
+                selectorState([
+                    <Selector key={0} change={true} data={columns} title={"Select Label"} onchange={selectLabel}/>,
+                    <Selector key={1} data={columns} title={"Select Feature"} onchange={selectFeature}/>,
+                    <Selector key={2} data={method} title={"Select method"} onchange={selectMethod}/>,
+                ])
             })
         }
         fetch()
     }
+
+    let [selector,selectorState] = useState([
+        <Selector key={0} data={columns} title={"Select Label"} onchange={selectLabel}/>,
+        <Selector key={1} data={columns} title={"Select Feature"} onchange={selectFeature}/>,
+        <Selector key={2} data={method} title={"Select method"} onchange={selectMethod}/>,
+    ])
 
     return(
         <div className="container-par">
@@ -112,9 +147,7 @@ const Transform = (props) =>{
                 <div className="container flex-center">
                     <div className="transform">
                         <div className="selector-col">
-                            <Selector data={columns} title={"Select Label"} onchange={selectLabel}/>
-                            <Selector data={columns} title={"Select Feature"} onchange={selectFeature}/>
-                            <Selector data={method} title={"Select method"} onchange={selectMethod}/>
+                            {selector}                        
                             <div className="selector-btn btn" onClick={saveTrans}>
                                 Save
                             </div>

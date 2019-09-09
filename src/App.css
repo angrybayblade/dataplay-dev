@@ -262,7 +262,6 @@ option{
 
 .chart-cont{
   min-height: 80vh !important;
-  margin:0px 0px 40px 90px;
 }
 
 .chart-row{
@@ -272,6 +271,10 @@ option{
 
 .btn{
   cursor: pointer;
+}
+
+.chart-img{
+  height: 90%;
 }
 
 /* Animations */
@@ -298,16 +301,3 @@ option{
   }
 }
 
-.zoom-out-0{
-  animation: 0.5s ease-out 0s 1 ZoomOut;
-}
-
-@keyframes ZoomOut {
-  0% {
-    transform: scale(0%);
-  }
-
-  100% {
-    transform: scale(100%);
-  }
-}

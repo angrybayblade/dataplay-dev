@@ -2,28 +2,56 @@ import React from 'react'
 
 const Head = (props) =>{
 
-    let data = props.data.map((row,i)=>{
-        let td = row.map((t,j)=>{
+    let data,columns;
+    if (props.method){
+        data = props.data.map((row,i)=>{
+            let td = row.map((t,j)=>{
+                return (
+                    <td key={j} >
+                        {t}
+                    </td>
+                )
+            })
+            return(
+                <tr key={i} className="table-row">
+                    {td}
+                </tr>
+            )
+        });
+    
+        columns = props.columns.map((col,i)=>{
             return (
-                <td key={j} >
-                    {t}
-                </td>
+                <th key={i}>
+                    {col}
+                </th>
             )
         })
-        return(
-            <tr key={i} className="table-row">
-                {td}
-            </tr>
-        )
-    });
+    }
+    else{
+        data = props.data.map((row,i)=>{
+            let td = row.map((t,j)=>{
+                return (
+                    <td key={j} >
+                        {t}
+                    </td>
+                )
+            })
+            return(
+                <tr key={i} className="table-row">
+                    {td}
+                </tr>
+            )
+        });
+    
+        columns = props.columns.map((col,i)=>{
+            return (
+                <th key={i}>
+                    {col.name}
+                </th>
+            )
+        })
+    }
 
-    let columns = props.columns.map((col,i)=>{
-        return (
-            <th key={i}>
-                {col.name}
-            </th>
-        )
-    })
 
     return(
         <table className="zoom-out-0">
