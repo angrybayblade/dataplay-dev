@@ -1,6 +1,17 @@
-import React from 'react';
+import React,{ useState } from 'react';
+import Selector from './Selector'
+import { useDispatch,useSelector } from 'react-redux'
 
 const Visualize = (props) =>{
+
+    let columns = useSelector(state=>state.columns)
+    let [charts,chartsState] = useState([
+            {name:"Bar",type:"bar"},
+            {name:"Line",type:"line"},
+            {name:"Scatter",type:"scatter"},
+            {name:"Histogram",type:"histogram"},
+        ])
+
     return(
         <div className="container-par">
             <div className="splash">
@@ -9,60 +20,10 @@ const Visualize = (props) =>{
                 <div className="container flex-center">
                     <div className="transform">
                         <div className="selector-col">
-                            <div className="selector-row chart-row">
-                                <div className="selector-label flex-center">
-                                    X
-                                </div>
-                                <div className="selector-input flex-center">
-                                    <select>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="selector-row chart-row">
-                                <div className="selector-label flex-center">
-                                    Y
-                                </div>
-                                <div className="selector-input flex-center">
-                                    <select>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="selector-row chart-row">
-                                <div className="selector-label flex-center">
-                                    Chart
-                                </div>
-                                <div className="selector-input flex-center">
-                                    <select>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                        <option>
-                                            1
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+                            <Selector title="X" data={columns} />
+                            <Selector title="Y" data={columns} />
+                            <Selector title="Chart" data={charts} />
+                            <Selector title="Hue" data={columns} />
                             <div className="selector-btn">
                                 Plot
                             </div>

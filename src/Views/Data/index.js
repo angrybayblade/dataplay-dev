@@ -7,6 +7,7 @@ import Loading from '../Loading'
 import Uploaded from './Uploaded'
 import Overview from './Overview'
 
+
 const Data = (props) =>{
 
     // init
@@ -42,7 +43,7 @@ const Data = (props) =>{
             }).then(respomse=>{
                 console.log(respomse.data)
                 window.overview = respomse.data
-                rendState(<Uploaded name={respomse.data.file_name} />)
+                rendState(<Overview data={respomse.data} columns={respomse.data.columns} />)
             })
             loadingState(false)
         }

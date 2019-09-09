@@ -13,7 +13,7 @@ let initState=[
 
  export default function(state=initState,action){
     switch(action.type){
-        case "COL-UPDATE":
+        case "COLUMNS":
             return action.payload
         default:
             return state

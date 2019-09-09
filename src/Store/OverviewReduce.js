@@ -21,7 +21,7 @@ let initialState  = {
     file_name:"file.csv"
 }
 
-export default function(state=initialState,action){
+export default function(state={},action){
         switch(action.type){
             case "OVERVIEW":
                 return action.payload
