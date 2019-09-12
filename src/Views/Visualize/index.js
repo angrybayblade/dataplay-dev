@@ -1,51 +1,153 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import Selector from './Selector'
 import { useDispatch,useSelector } from 'react-redux'
 import axios from 'axios'
+import Plot from 'react-plotly.js';
+
+import Loading from '../Loading'
+
+const charts = [
+        {name:"Bar",type:"bar"},
+        {name:"Line",type:"line"},
+        {name:"Scatter",type:"scatter"},
+        {name:"Histogram",type:"histogram"},
+        {name:"Pie",type:"pie"},
+    ]
+
+const chartConfigs = {
+        'scatter':{
+            x:[],
+            y:[],
+            mode: 'markers',
+            type: 'scatter'
+        },
+        'line':{
+            x:[],
+            y:null,
+            type: 'scatter',
+            mode: 'line+markers',
+        },
+        'bar':{
+            x:[],
+            y:[],
+            type: 'bar'
+        },
+        'donut':{
+            type: 'pie',
+            domain: {column: 0},
+            name: 'GHG Emissions',
+            hoverinfo: 'label+percent+name',
+            hole: .4,
+        },
+        'pie':{
+            type: 'pie',
+        },
+        'box':{
+            type: 'box',
+        },
+        'histogram':{
+            type:'histogram'
+        }
+    }
 
 const Visualize = (props) =>{
 
-    window.x = null
-    window.y = null
-    window.chart = null
-    window.hue = null
+    let [config,configState] = useState({
+                                x : null,
+                                y : null,
+                                chart : null,
+                                hue : null,
+                            })
 
-    let columns = useSelector(state=>state.columns)
-    let [charts,chartsState] = useState([
-            {name:"Bar",type:"bar"},
-            {name:"Line",type:"line"},
-            {name:"Scatter",type:"scatter"},
-            {name:"Histogram",type:"histogram"},
-        ])
+    let columns = useSelector(state=>state.columns),chartRender,configData 
+    let [chart,chartState] = useState(<div>Start Plotting</div>)
+    let [load,loadState] = useState(false)
 
-    let [chart,chartState] = useState(<img src="//" alt="Plot" />)
+    const selecX = (X) => configState({
+                            x:X,
+                            y:config.y,
+                            chart:config.chart,
+                            hue:config.hue
+                        })
 
-    const selecX = (x) => window.x = x
-    const selecY = (y) => window.y = y
-    const selecChart = (chart) => window.chart = chart
-    const selecHue = (hue) => window.hue = hue
+    const selecY = (Y) => configState({
+                                x:config.x,
+                                y:Y,
+                                chart:config.chart,
+                                hue:config.hue
+                            })
+
+    const selecChart = (Chart) => configState({
+                                x:config.x,
+                                y:config.y,
+                                chart:chartConfigs[Chart],
+                                hue:config.hue
+                            })
+
+    const selecHue = (Hue) => configState({
+                                x:config.x,
+                                y:config.y,
+                                chart:config.chart,
+                                hue:Hue
+                            })
     
     const plot = (x,y,chart,hue,user="viraj") =>{
+        loadState(true)
         async function fetch(){
+            configData = config;
+            configData.user = "viraj"
+
             await axios({
                 url:"http://localhost:8080/visualize",
                 method:"POST",
-                data:{
-                    x,
-                    y,
-                    chart,
-                    hue,
-                    user
-                }
+                data:configData
             }).then(response=>{
                 console.log(response.data)
-                chartState(<object data={response.data.chart} type="image/svg+xml" className="chart-img" />)
-                // chartState(<embed type="image/svg+xml" src= {response.data.chart} />)
+                
+                chartState(
+                            <Plot
+                                data={response.data.data}
+                                layout={{
+                                    width: "110%", 
+                                    height: "110%", 
+                                    title: {
+                                        text:'Plot Title',
+                                        font: {
+                                        family: 'Courier New, monospace',
+                                        size: 24
+                                        },
+                                        xref: 'paper',
+                                    },
+                                    xaxis: {
+                                        title: {
+                                        text: 'X',
+                                        font: {
+                                            family: 'Courier New, monospace',
+                                            size: 18,
+                                            color: '#7f7f7f'
+                                        }
+                                        },
+                                    },
+                                    yaxis: {
+                                        title: {
+                                        text: 'Y',
+                                        font: {
+                                            family: 'Courier New, monospace',
+                                            size: 18,
+                                            color: '#7f7f7f'
+                                        }
+                                        }
+                                    }
+                                }}
+                            />
+                        )
             })
         }
         fetch()
+        loadState(false)
     }
     
+   
 
     return(
         <div className="container-par">
@@ -57,7 +159,7 @@ const Visualize = (props) =>{
                         <div className="selector-col">
                             <Selector title="X" data={columns} onchange={selecX} />
                             <Selector title="Y" data={columns} onchange={selecY} />
-                            <Selector title="Chart" data={charts} onchange={selecChart} />
+                            <Selector title="Chart" data={charts} onchange={selecChart} type />
                             <Selector title="Hue" data={columns} onchange={selecHue} />
                             <div className="selector-btn" onClick={()=>{
                                 plot(
@@ -72,7 +174,7 @@ const Visualize = (props) =>{
                         </div>
                         <div className="overview-col">
                             <div className="table-cont chart-cont">
-                                {chart}
+                                { load ? <Loading /> : chart }
                             </div>
                         </div>
                     </div>

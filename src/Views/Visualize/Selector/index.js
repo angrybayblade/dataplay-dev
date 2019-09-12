@@ -3,6 +3,13 @@ import React from 'react'
 const Selector = (props) =>{
 
     let options = props.data.map((option,i)=>{
+        if (props.type){
+            return(
+                <option value={option.type} key={i}>
+                    {option.name}
+                </option>
+            )            
+        }
         return(
             <option value={option.name} key={i}>
                 {option.name}
