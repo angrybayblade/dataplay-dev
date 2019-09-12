@@ -12,6 +12,8 @@ const charts = [
         {name:"Scatter",type:"scatter"},
         {name:"Histogram",type:"histogram"},
         {name:"Pie",type:"pie"},
+        {name:"Donut",type:"donut"},
+        {name:"Box",type:"box"},
     ]
 
 const chartConfigs = {
@@ -35,14 +37,16 @@ const chartConfigs = {
         'donut':{
             type: 'pie',
             domain: {column: 0},
-            name: 'GHG Emissions',
             hoverinfo: 'label+percent+name',
             hole: .4,
         },
         'pie':{
+            values:[],
+            labels:[],
             type: 'pie',
         },
         'box':{
+            y:[],
             type: 'box',
         },
         'histogram':{
