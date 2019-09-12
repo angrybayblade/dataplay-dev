@@ -24,8 +24,8 @@ const chartConfigs = {
         'line':{
             x:[],
             y:null,
-            type: 'scatter',
-            mode: 'line+markers',
+            type: 'line',
+            mode: 'line',
         },
         'bar':{
             x:[],
@@ -107,38 +107,7 @@ const Visualize = (props) =>{
                 chartState(
                             <Plot
                                 data={response.data.data}
-                                layout={{
-                                    width: "110%", 
-                                    height: "110%", 
-                                    title: {
-                                        text:'Plot Title',
-                                        font: {
-                                        family: 'Courier New, monospace',
-                                        size: 24
-                                        },
-                                        xref: 'paper',
-                                    },
-                                    xaxis: {
-                                        title: {
-                                        text: 'X',
-                                        font: {
-                                            family: 'Courier New, monospace',
-                                            size: 18,
-                                            color: '#7f7f7f'
-                                        }
-                                        },
-                                    },
-                                    yaxis: {
-                                        title: {
-                                        text: 'Y',
-                                        font: {
-                                            family: 'Courier New, monospace',
-                                            size: 18,
-                                            color: '#7f7f7f'
-                                        }
-                                        }
-                                    }
-                                }}
+                                layout={response.data.layout}
                             />
                         )
             })
