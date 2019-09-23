@@ -115,8 +115,10 @@ const Visualize = (props) =>{
                             />
                         )
             })
+            document.getElementsByClassName('main-svg')[0].style.background=''
         }
         fetch()
+        
         loadState(false)
     }
     

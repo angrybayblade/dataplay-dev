@@ -134,7 +134,7 @@ const Transform = (props) =>{
     }
 
     let [selector,selectorState] = useState([
-        <Selector key={0} data={columns} title={"Select Label"} onchange={selectLabel}/>,
+        // <Selector key={0} data={columns} title={"Select Label"} onchange={selectLabel}/>,
         <Selector key={1} data={columns} title={"Select Feature"} onchange={selectFeature}/>,
         <Selector key={2} data={method} title={"Select method"} onchange={selectMethod}/>,
     ])

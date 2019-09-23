@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ColIInfo = (props) =>{
-    console.log(props.data)
+    // console.log(props.data)
     let rows = props.data.map((row,i)=>{
         return (
             <tr className="table-row" key={i}>

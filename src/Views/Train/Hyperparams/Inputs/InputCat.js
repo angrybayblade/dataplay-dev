@@ -13,12 +13,6 @@ const InputCat = (props) =>{
     let train = useSelector(state => state.train)
     let dispatch = useDispatch();
 
-    const UpdateParams = (p,v) =>{
-        let pars = train.hyperparams;
-        pars[p] = v;
-        train.hyperparams = pars;
-        dispatch(update("TRAIN-UPDATE",train))
-    }
 
     let options =  props.data.map((option,i)=>{
         return(
@@ -27,7 +21,7 @@ const InputCat = (props) =>{
     })
     
     return(
-        <select name={props.name} className="input-select marg-0" onChange={(e)=>{UpdateParams(props.name,e.target.value)}}>
+        <select name={props.name} className="input-select-param marg-0" onChange={(e)=>{props.tuneparam(props.name,e.target.value)}}>
             {options}
         </select>
     )
