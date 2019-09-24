@@ -311,6 +311,7 @@ option{
   height: 30px;
   margin: 10px 0px;
   border-radius: 5px;
+  width: 100%;
   border: #1E346F thin 1px;
 }
 
@@ -325,6 +326,25 @@ option{
 .input-num-param input{
   min-width: 80%;
   width: -webkit-fill-available;
+}
+
+
+.hyper-container{
+  width: 100%;
+  margin: 5px 0px;
+}
+
+.hyperparam{
+  width: 100%;
+}
+
+.hyperparam-label{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 450;
+  font-size: 0.9rem;
 }
 
 /* Visualize.js */

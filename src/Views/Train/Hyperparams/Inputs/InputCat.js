@@ -12,7 +12,7 @@ const InputCat = (props) =>{
 
     let train = useSelector(state => state.train)
     let dispatch = useDispatch();
-
+    // let [defaultval,defaultState] = React.useState(props.default)
 
     let options =  props.data.map((option,i)=>{
         return(
@@ -21,7 +21,14 @@ const InputCat = (props) =>{
     })
     
     return(
-        <select name={props.name} className="input-select-param marg-0" onChange={(e)=>{props.tuneparam(props.name,e.target.value)}}>
+        <select 
+            name={props.name} 
+            className="input-select-param marg-0" 
+            onChange={(e)=>{
+                props.tuneparam(props.name,e.target.value)
+                // defaultState(e.target.value)
+            }}
+        >
             {options}
         </select>
     )

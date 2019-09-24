@@ -36,10 +36,6 @@ const Train = (props) =>{
     let algo;
     let [hyper,hyperState] = React.useState(<Hyperparams data={[]} />)
     let columns = useSelector(state => state.columns),i,j;
-    let [trainopt,trainState] = useState({
-            label:"",
-            algo:{}
-        })
 
     const selectAlgo = (x) => {
         let temp;
@@ -57,44 +53,38 @@ const Train = (props) =>{
         for (i in algo.hyper_params){
             temp = algo.hyper_params[i]
             if (temp.type === "bool"){
-                algo.hyperparams[temp.name] = temp.default
+                algo.hyperparams[temp.name] = Number(temp.default)
             }
             else{
                 algo.hyperparams[temp.name] = temp.data[2]
             }
         }
 
-        trainState({
-            label:trainopt.label,
-            algo:algo
-        })
-
-        console.log(trainopt)
+        window.trainopt = algo
     }
 
     const selectLabel = (x) => {
-            trainState({
-                    label:JSON.parse(x),
-                    algo:trainopt.algo
-                });
+            window.label = JSON.parse(x)
         }  
     
-    async function train(){
+    async function Train(){
         await axios({
             method:"POST",
-            url:"http://localhost:8080/train"
+            url:"http://localhost:8080/train",
+            data:{
+                traindata:window.trainopt,
+                label:window.label
+            }
+        }).then(response =>{
+            console.log(response.data)
         })
     }
     
-    const tuneparam = (p,v) =>{
-        console.log(trainopt)
+    let tuneParam = (p,v) => {
+        window.trainopt.hyperparams[p] = v
+        console.log(window.trainopt.hyperparams[p])
     }
 
-    let tuneParam = (p,v) => tuneparam(p,v)
-
-    const Train = () =>{
-        console.log(trainopt)
-    }
 
     return(
         <div className="container-par">

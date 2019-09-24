@@ -20,6 +20,7 @@ const Inputs = (props) =>{
             <InputBool 
                 tuneparam = {props.tuneparam} 
                 name={props.data.name}
+                default={props.data.default}
             />
         )
     }

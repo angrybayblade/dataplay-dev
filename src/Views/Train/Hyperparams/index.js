@@ -6,8 +6,14 @@ const Hyperparams = (props) =>{
 
     
     let inputs = props.data.map((param,i)=>{
+        // console.log(param.name)
         return (
-            <Inputs type={param.type} data={param} key={i} tuneparam = {props.tuneParam} />
+            <div key={i} className="hyper-container">
+                <div className="hyperparam-label">
+                    {param.name}
+                </div>
+                <Inputs className="hyperparam" type={param.type} data={param}  tuneparam = {props.tuneParam} />
+            </div>
         )
     })
 
