@@ -13,7 +13,7 @@ let initState=[
     {"dtype":"object","name":"Embarked","nullvals":2,"nunique":3,"type":"cat"}
 ]
  export default function(state=initState,action){
-     console.log(state,action)
+    //  console.log(state,action)
     switch(action.type){
         case "COLUMNS":
             return action.payload

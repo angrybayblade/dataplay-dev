@@ -279,7 +279,16 @@ option{
 
 .selector-row-hyperparams{
   min-height: 100px;
-  height: auto;
+  height: -webkit-fill-available;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  background: #F9F9F9;
+  border-radius: 5px;
+  margin: 20px 0px;
+}
+
+.selector-row-features{
+  height: -webkit-fill-available;
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.25);
   width: 100%;
   background: #F9F9F9;
@@ -364,6 +373,21 @@ option{
 
 .chart-img{
   height: 90%;
+}
+
+/* Features.js */
+
+.feature-selector{
+  display: flex;
+  align-items: center;
+  justify-content: flex;
+  flex-direction: column;
+}
+
+.feature{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Animations */

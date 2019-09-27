@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import Selector from "./Selector";
 import Hyperparams from './Hyperparams';
+import Features from './Selector/Features'
 
 const models = [
                 {
@@ -23,7 +24,7 @@ const models = [
                     name:'SVR',
                     url:'/train/regression/svr',
                     hyper_params:[
-                        {name:"C",type:"num",data:[0,100,0.5]},
+                        {name:"C",type:"num",data:[0,100,0.1]},
                         {name:"gamma",type:"num",data:[0.1,10,0.1]},
                         {name:"kernel",type:"cat",data:['rbf','linear','poly','sigmoid', 'precomputed']},
                     ],
@@ -36,6 +37,7 @@ const Train = (props) =>{
     let algo;
     let [hyper,hyperState] = React.useState(<Hyperparams data={[]} />)
     let columns = useSelector(state => state.columns),i,j;
+    window.features = []
 
     const selectAlgo = (x) => {
         let temp;
@@ -73,7 +75,8 @@ const Train = (props) =>{
             url:"http://localhost:8080/train",
             data:{
                 traindata:window.trainopt,
-                label:window.label
+                label:window.label,
+                features:window.features
             }
         }).then(response =>{
             console.log(response.data)
@@ -82,9 +85,23 @@ const Train = (props) =>{
     
     let tuneParam = (p,v) => {
         window.trainopt.hyperparams[p] = v
-        console.log(window.trainopt.hyperparams[p])
+        // console.log(window.trainopt.hyperparams[p])
     }
 
+    const selectFeature = (v,n) =>{
+        if (v.checked === false){
+            window.features.push(n)
+            // console.log(window.features)
+        }
+        else{
+            window.features = window.features.filter((e,i)=>{
+                if (e !== n){
+                    return e
+                }
+            })
+            // console.log(window.features)
+        }
+    }
 
     return(
         <div className="container-par">
@@ -93,8 +110,19 @@ const Train = (props) =>{
             <div>
                 <div className="container flex-center">
                     <div className="transform">
-                        <div className="selector-col"  >
+                        <div className="selector-col"  style={{margin:"0px 0px 0px 50px"}}>
                             <Selector data={ columns } title={"Label"} type onchange={selectLabel} />
+                            <div className="selector-row-features" style={{height:"auto !important"}} >
+                                <div className="selector-label-hyperparams flex-center">
+                                    Features
+                                </div>
+                                <div className="selector-features flex-center flex-column">
+                                    <Features columns={columns} selectFeature={selectFeature} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="selector-col"  style={{margin:"0px 0px 0px 50px"}}>
                             <Selector data={ models } title={"Algorithm"} type onchange={selectAlgo} />
                             <div className="selector-row-hyperparams">
                                 <div className="selector-label-hyperparams flex-center">
@@ -104,12 +132,13 @@ const Train = (props) =>{
                                     {hyper}
                                 </div>
                             </div>
-                            <div className="selector-btn" onClick={Train} >
+                            <div className="selector-btn" style={{marginBottom:"25px"}} onClick={Train} >
                                 Train
                             </div>
                         </div>
+
                         <div className="overview-col">
-                            <div className="table-cont">
+                            <div className="table-cont" style={{margin:"50px 50px"}}>
                                 MSE/Confusion Matrix
                             </div>
                         </div>
