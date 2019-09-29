@@ -14,15 +14,32 @@ const Data = (props) =>{
 
     let overview = useSelector(state=>state.overview)
     let columns = useSelector(state=>state.columns)
-    let [rend,rendState] = useState(<Upload upload={upload} />)
+    let [rend,rendState] = useState(null)
     let [loading,loadingState] = useState(false)
 
     useEffect(()=>{
-        loadingState(true)
-        if(overview.file_name){
-            rendState(<Overview data={overview} columns={columns} />)
-            window.overview = overview
+        async function fetch(){
+            if(overview.file_name){
+                await axios({
+                    url:"http://localhost:8080/overview",
+                    method :"POST",
+                    data: {
+                        type:"overview",
+                        user:'viraj',
+                        filename:overview.file_name
+                    },
+                    }).then(respomse=>{
+                        console.log(respomse.data)
+                        window.overview = respomse.data
+                        rendState(<Overview data={respomse.data} columns={respomse.data.columns} />)
+                })
+            }
+            else{
+                rendState(<Upload upload={upload} />)
+            }
         }
+        loadingState(true)
+        fetch()
         loadingState(false)
     },[])
 

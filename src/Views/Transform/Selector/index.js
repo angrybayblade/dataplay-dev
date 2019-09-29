@@ -11,7 +11,7 @@ const update = (type,payload) =>{
 const Selector = (props) =>{
     let selector = props.data.map((option,i)=>{
         return(
-            <option value={option.name} key={i}>
+            <option value={option.name} key={i} >
                 {option.name}
             </option>
         )
@@ -30,6 +30,7 @@ const Selector = (props) =>{
             </div>
             <div className="selector-input flex-center">
                 <select onChange={(e)=>{props.onchange(e.target.value)}}>
+                    <option value={null}>Select</option>
                     {selector}
                 </select>
             </div>

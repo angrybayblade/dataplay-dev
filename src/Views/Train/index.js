@@ -14,10 +14,10 @@ const models = [
                     hyper_params:[
                             {name:"fit_intercept",type:"bool",default:true},
                             {name:"normalize",type:"bool",default:false},
-                            {name:"n_jobs",type:"num",data:[0,10,1]},
-                            {name:"cat_test",type:"cat",data:["a","b","c"]}
+                            {name:"n_jobs",type:"num",data:[-1,8,1]},
+                            // {name:"cat_test",type:"cat",data:["a","b","c"]}
                     ],
-                    type:"ml/supervised/regression",
+                    type:"ml/supervised/regression/linear",
                     par:"regression",
                 },
                 {
@@ -76,10 +76,11 @@ const Train = (props) =>{
             data:{
                 traindata:window.trainopt,
                 label:window.label,
-                features:window.features
+                features:window.features,
+                user:"viraj"
             }
         }).then(response =>{
-            console.log(response.data)
+            console.log(response.data.features)
         })
     }
     

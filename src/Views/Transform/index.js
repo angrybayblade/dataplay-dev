@@ -21,12 +21,7 @@ const Transform = (props) =>{
             tablePreview:"Select Feature",
             methodPreview:"Select Method"
         })
-    
 
-
-    const selectLabel = (e) =>{
-        window.label = e
-    }
 
     const selectFeature = (e) =>{
         rendState({
@@ -124,7 +119,7 @@ const Transform = (props) =>{
                     })
                 }
                 selectorState([
-                    <Selector key={0} change={true} data={columns} title={"Select Label"} onchange={selectLabel}/>,
+                    // <Selector key={0} change={true} data={columns} title={"Select Label"} onchange={selectLabel}/>,
                     <Selector key={1} data={columns} title={"Select Feature"} onchange={selectFeature}/>,
                     <Selector key={2} data={method} title={"Select method"} onchange={selectMethod}/>,
                 ])
