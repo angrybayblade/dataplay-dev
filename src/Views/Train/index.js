@@ -6,6 +6,7 @@ import axios from 'axios'
 import Selector from "./Selector";
 import Hyperparams from './Hyperparams';
 import Features from './Selector/Features'
+import Evaluation from './Evaluation';
 
 const models = [
                 {
@@ -36,6 +37,11 @@ const models = [
 const Train = (props) =>{
     let algo;
     let [hyper,hyperState] = React.useState(<Hyperparams data={[]} />)
+    let [evaluation,evaluationState] = React.useState(
+            <div>
+                MSE/Confusion Matrix
+            </div>
+        )
     let columns = useSelector(state => state.columns),i,j;
     window.features = []
 
@@ -80,7 +86,8 @@ const Train = (props) =>{
                 user:"viraj"
             }
         }).then(response =>{
-            console.log(response.data.features)
+            console.log(response.data)
+            evaluationState(<Evaluation data={response.data} />)
         })
     }
     
@@ -140,7 +147,7 @@ const Train = (props) =>{
 
                         <div className="overview-col">
                             <div className="table-cont" style={{margin:"50px 50px"}}>
-                                MSE/Confusion Matrix
+                                {evaluation}
                             </div>
                         </div>
                     </div>
