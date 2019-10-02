@@ -10,40 +10,40 @@ import Evaluation from './Evaluation';
 
 const models = [
                 {
-                    name:"Linear Regression",
-                    url:'/train/regression/linear',
+                    name:"LinearRegression",
+                    package:'sklearn.linear_model',
                     hyper_params:[
                             {name:"fit_intercept",type:"bool",default:true},
                             {name:"normalize",type:"bool",default:false},
-                            {name:"n_jobs",type:"num",data:[-1,8,1]},
-                            // {name:"cat_test",type:"cat",data:["a","b","c"]}
+                            {name:"n_jobs",type:"num",data:[-1,8,1,2]},
                     ],
-                    type:"ml/supervised/regression/linear",
-                    par:"regression",
+                    type:"regression",
                 },
                 {
-                    name:'SVR',
-                    url:'/train/regression/svr',
+                    name:'LogisticRegression',
+                    package:'sklearn.linear_model',
                     hyper_params:[
-                        {name:"C",type:"num",data:[0,100,0.1]},
-                        {name:"gamma",type:"num",data:[0.1,10,0.1]},
-                        {name:"kernel",type:"cat",data:['rbf','linear','poly','sigmoid', 'precomputed']},
+                        {name:"penalty",type:'cat',data:['l2','l1','elasticnet','none']},
+                        {name:"C",type:'num',data:[0,1,0.01,1]},
+                        {name:"fit_intercept",type:"bool",default:true},
+                        {name:"solver",type:"cat",data:['liblinear','newton-cg', 'lbfgs',  'sag', 'saga']},
+                        {name:"l1_ratio",type:'num',data:[0,1,0.01,0]}
                     ],
-                    type:"ml/supervised/regression",
-                    par:"regression"
+                    type:"classification"
                 },
             ]
 
 const Train = (props) =>{
     let algo;
     let [hyper,hyperState] = React.useState(<Hyperparams data={[]} />)
+    let [features,featuresState] = React.useState([])
     let [evaluation,evaluationState] = React.useState(
             <div>
                 MSE/Confusion Matrix
             </div>
         )
     let columns = useSelector(state => state.columns),i,j;
-    window.features = []
+
 
     const selectAlgo = (x) => {
         let temp;
@@ -63,8 +63,11 @@ const Train = (props) =>{
             if (temp.type === "bool"){
                 algo.hyperparams[temp.name] = Number(temp.default)
             }
+            else if (temp.type === "cat"){
+                algo.hyperparams[temp.name] = temp.data[0]
+            }
             else{
-                algo.hyperparams[temp.name] = temp.data[2]
+                algo.hyperparams[temp.name] = temp.data[3]
             }
         }
 
@@ -82,13 +85,14 @@ const Train = (props) =>{
             data:{
                 traindata:window.trainopt,
                 label:window.label,
-                features:window.features,
+                features:features,
                 user:"viraj"
             }
         }).then(response =>{
             console.log(response.data)
             evaluationState(<Evaluation data={response.data} />)
         })
+        // console.log("Cols :",window.features)
     }
     
     let tuneParam = (p,v) => {
@@ -97,18 +101,19 @@ const Train = (props) =>{
     }
 
     const selectFeature = (v,n) =>{
-        if (v.checked === false){
-            window.features.push(n)
-            // console.log(window.features)
+        if (v.checked){
+            features.push(n)
+            featuresState(features)
         }
         else{
-            window.features = window.features.filter((e,i)=>{
-                if (e !== n){
-                    return e
+            features = features.filter((feat,i)=>{
+                if (feat !== n){
+                    return feat
                 }
             })
-            // console.log(window.features)
+            featuresState(features)
         }
+        console.log(features)
     }
 
     return(

@@ -5,7 +5,7 @@ const Features = (props) =>{
         return (
             <div key={i} className="feature">
                 <label className="feature-label" >{col.name}</label>
-                <input type="checkbox" onChange={(e)=>{props.selectFeature(e.target,col.name)}} defaultChecked name={col.name} value={col.name} className="feature-input" />
+                <input type="checkbox" onChange={(e)=>{props.selectFeature(e.target,col.name)}} name={col.name} value={col.name} className="feature-input" />
             </div>
         )
     })

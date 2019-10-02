@@ -32,6 +32,7 @@ const Inputs = (props) =>{
                 min={props.data.data[0]} 
                 max={props.data.data[1]} 
                 step={props.data.data[2]}
+                default={props.data.data[3]}
             />
         )
     }
