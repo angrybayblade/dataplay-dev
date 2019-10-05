@@ -77,7 +77,8 @@ const Train = (props) =>{
     const selectLabel = (x) => {
             window.label = JSON.parse(x)
         }  
-    
+ 
+
     async function Train(){
         await axios({
             method:"POST",
@@ -89,8 +90,8 @@ const Train = (props) =>{
                 user:"viraj"
             }
         }).then(response =>{
-            console.log(response.data)
-            evaluationState(<Evaluation data={response.data} />)
+            console.log(response.data);
+            evaluationState(<Evaluation data={response.data} />);
         })
         // console.log("Cols :",window.features)
     }
@@ -151,7 +152,7 @@ const Train = (props) =>{
                         </div>
 
                         <div className="overview-col">
-                            <div className="table-cont" style={{margin:"50px 50px"}}>
+                            <div className="table-cont" style={{margin:"50px 50px",background:"white"}}>
                                 {evaluation}
                             </div>
                         </div>

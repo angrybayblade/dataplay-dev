@@ -5,6 +5,8 @@ import axios from "axios"
 import Selector from './Selector'
 import Loading from '../Loading'
 import Table from './Table'
+import cerateNotification from '../Noftification';
+import createNotification from '../Noftification';
 
 const Transform = (props) =>{
 
@@ -49,6 +51,7 @@ const Transform = (props) =>{
         }
 
         fetch()
+        cerateNotification("Selected",e);
 
     }
 
@@ -123,6 +126,7 @@ const Transform = (props) =>{
                     <Selector key={1} data={columns} title={"Select Feature"} onchange={selectFeature}/>,
                     <Selector key={2} data={method} title={"Select method"} onchange={selectMethod}/>,
                 ])
+                createNotification("Saved",window.method+" applied on "+window.column)
             })
         }
         fetch()

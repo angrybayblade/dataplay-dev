@@ -1,6 +1,6 @@
-# Data Playground Build
+# Data Playground Dev
 
-**UI Build [Data Play Dev](https://github.com/mr-robot0/dataplay-build)**
+**UI Build [Data Play Build](https://github.com/mr-robot0/dataplay-build)**
 
 > Data playground is simple UI developed in React.js and python's flask framework for playing with your data. You can perform different transformations, create interactive data visualizations and create and tune simple machine learning models.
 

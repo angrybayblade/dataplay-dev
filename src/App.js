@@ -12,6 +12,8 @@ import Visualize from './Views/Visualize';
 import Transform from './Views/Transform';
 import Train from './Views/Train';
 
+import createNotification from './Views/Noftification';
+
 const App = (props) => {
 
   let Nav = [
@@ -30,6 +32,7 @@ const App = (props) => {
       )
     })
 
+
   return (
     <section>
       <Router>
@@ -42,7 +45,9 @@ const App = (props) => {
         <Route path = "/transform" exact component = { Transform } />
         <Route path = "/visualize" exact component = { Visualize } />
         <Route path = "/train" exact component = { Train } />
-      </Router>      
+      </Router>   
+      <div className="notifications">
+      </div>  
     </section>
   );
 }
