@@ -45,8 +45,14 @@
   </body>
   <script>
     function closenotification(i){
-      var elem = document.querySelector('#notif-'+i);
-      elem.parentNode.removeChild(elem);
+      var elem = document.getElementById(i);
+        function remove(){
+            elem.parentNode.removeChild(elem);
+        }        
+        if (elem){
+            elem.className="notification notif-close";
+            setTimeout(remove,900)
+        }
     }
   </script>
 </html>

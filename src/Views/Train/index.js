@@ -7,6 +7,7 @@ import Selector from "./Selector";
 import Hyperparams from './Hyperparams';
 import Features from './Selector/Features'
 import Evaluation from './Evaluation';
+import createNotification from '../Noftification';
 
 const models = [
                 {
@@ -31,6 +32,195 @@ const models = [
                     ],
                     type:"classification"
                 },
+                {
+                    name:'ElasticNet',
+                    package:'sklearn.linear_model',
+                    hyper_params:[
+                        {name:"alpha",type:'num',data:[0,1,0.01,1]},
+                        {name:"normalize",type:"bool",default:false},
+                        {name:"l1_ratio",type:'num',data:[0,1,0.01,0]}
+                    ],
+                    type:"regression"
+                },
+                {
+                    name:'Lasso',
+                    package:'sklearn.linear_model',
+                    hyper_params:[
+                        {name:"alpha",type:'num',data:[0,1,0.01,1]},
+                        {name:"normalize",type:"bool",default:false},
+                        {name:"l1_ratio",type:'num',data:[0,1,0.01,0]}
+                    ],
+                    type:"regression"
+                },
+                {
+                    name:'Ridge',
+                    package:'sklearn.regression',
+                    hyper_params:[
+                        {name:"alpha",type:'num',data:[0,1,0.01,1]},
+                        {name:"normalize",type:"bool",default:false},
+                        {name:"solver",type:"cat",data:['liblinear','newton-cg', 'lbfgs',  'sag', 'saga']},
+                    ],
+                    type:"regression"
+                },
+                {
+                    name:'SGDRegressor',
+                    package:'sklearn.linear_model',
+                    hyper_params:[
+                        {name:"alpha",type:'num',data:[0,1,0.01,1]},
+                        {name:"normalize",type:"bool",default:false},
+                        {name:"solver",type:"cat",data:['liblinear','newton-cg', 'lbfgs',  'sag', 'saga']},
+                    ],
+                    type:"regression"
+                },
+                {
+                    name:'SGDClassifier',
+                    package:'sklearn.linear_model',
+                    hyper_params:[
+                        {name:"loss",type:"cat",data:['hinge','log', 'modified_huber',  'squared_hinge', 'perceptron','epsilon_intensive']},
+                        {name:"penalty",type:'cat',data:['l2','l1','elasticnet','none']},
+                        {name:"alpha",type:'num',data:[0,1,0.01,1]},
+                        {name:"l1_ratio",type:'num',data:[0,1,0.0001,0.0001]},
+                        {name:"early_stopping",type:"bool",default:false},
+                        {name:"learning_rate",type:"cat",data:['optimal','constant', 'invscaling',  'adaptive']},
+                    ],
+                    type:"classification"
+                },
+                {
+                    name:'KNeighborsClassifier',
+                    package:'sklearn.neighbors',
+                    hyper_params:[
+                        {name:"n_neighbors",type:'num',data:[1,20,1,5]},
+                        {name:"weights",type:"cat",data:['uniform','distance']},
+                        {name:"algorithm",type:"cat",data:['auto','ball_tree','kd_tree','brute']},
+                        {name:"leaf_size",type:'num',data:[1,100,1,30]},
+                        {name:"p",type:'num',data:[1,10,1,2]},                    
+                    ],
+                    type:"classification"
+                },
+                {
+                    name:'KNeighborsRegressor',
+                    package:'sklearn.',
+                    hyper_params:[
+                        {name:"n_neighbors",type:'num',data:[1,20,1,5]},
+                        {name:"weights",type:"cat",data:['uniform','distance']},
+                        {name:"algorithm",type:"cat",data:['auto','ball_tree','kd_tree','brute']},
+                        {name:"leaf_size",type:'num',data:[1,100,1,30]},
+                        {name:"p",type:'num',data:[1,10,1,2]},                  
+                    ],
+                    type:"regression"
+                },
+                {
+                    name:'GaussianNB',
+                    package:'sklearn.naive_bayes',
+                    hyper_params:[                  
+                    ],
+                    type:"classification"
+                },
+                {
+                    name:'LinearSVC',
+                    package:'sklearn.svm',
+                    hyper_params:[
+                        {name:"penalty",type:"cat",data:['l2','l1']},
+                        {name:"loss",type:"cat",data:['squared_hinge','hinge']},
+                        {name:"dual",type:"bool",default:true},
+                        {name:"C",type:'num',data:[0.1,10,0.1,1]},
+                        {name:"multi_class",type:"cat",data:['ovr','crammer_singer']},
+                        {name:"fit_intercept",type:"bool",default:true},                
+                    ],
+                    type:"classification"
+                },
+                {
+                    name:'LinearSVR',
+                    package:'sklearn.svm',
+                    hyper_params:[
+                        {name:"epsilon",type:'num',data:[0,10,0.2,0]},
+                        {name:"loss",type:"cat",data:['squared_hinge','hinge']},
+                        {name:"dual",type:"bool",default:true},
+                        {name:"C",type:'num',data:[0.1,10,0.1,1]},
+                        {name:"fit_intercept",type:"bool",default:true},    
+                    ],
+                    type:"regression"
+                },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"classification"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"regression"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"classification"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"regression"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"classification"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"regression"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"classification"
+                // },
+                // {
+                //     name:'',
+                //     package:'sklearn.',
+                //     hyper_params:[
+                //         {name:"",type:"cat",data:[,,,]},
+                //         {name:"",type:'num',data:[,,,]},
+                //         {name:"",type:"bool",default:false},                    
+                //     ],
+                //     type:"regression"
+                // },
             ]
 
 const Train = (props) =>{
@@ -90,8 +280,13 @@ const Train = (props) =>{
                 user:"viraj"
             }
         }).then(response =>{
-            console.log(response.data);
-            evaluationState(<Evaluation data={response.data} />);
+            // console.log(response.data);
+            if (response.data.status){
+                evaluationState(<Evaluation data={response.data} />);
+            }
+            else{
+                createNotification("Error",response.data.msg)
+            }
         })
         // console.log("Cols :",window.features)
     }

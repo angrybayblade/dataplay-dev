@@ -50,37 +50,38 @@ const Evaluation = (props) =>{
           />
     }
     else{
+        console.log(props.data.validation.conf_mat)
         var trace1 = {
-            x: [1, 2, 3],
-            y: [4, 5, 6],
-            type: 'scatter'
+            x: props.data.validation.f1_cv,
+            type: 'histogram',
+            name:"F1 Score"
           };
           
           var trace2 = {
-            x: [20, 30, 40],
-            y: [50, 60, 70],
+            x: props.data.validation.pres_cv,
+            name:"Precision Score",
             xaxis: 'x2',
             yaxis: 'y2',
-            type: 'scatter'
+            type: 'histogram'
           };
           
           var trace3 = {
-            x: [300, 400, 500],
-            y: [600, 700, 800],
+            x: props.data.validation.rec_cv,
+            name:"Recall Score",
             xaxis: 'x3',
             yaxis: 'y3',
-            type: 'scatter'
+            type: 'histogram'
           };
           
           var trace4 = {
-            x: [4000, 5000, 6000],
-            y: [7000, 8000, 9000],
+            z: props.data.validation.conf_mat,
             xaxis: 'x4',
             yaxis: 'y4',
-            type: 'scatter'
+            type: 'heatmap',
+            showscale: false
           };
           
-          var data = [trace1, trace2, trace3, trace4];
+          var data = [trace1,trace2,trace3,trace4];
           
           var layout = {
             grid: {rows: 2, columns: 2, pattern: 'independent'},

@@ -10,8 +10,7 @@ const update = (type,payload) =>{
 
 const InputBool = (props) =>{
 
-    let train = useSelector(state => state.train)
-    let dispatch = useDispatch();
+
     let [ defaultval, defaultState ] =  React.useState(Number(props.default))
 
     return(
@@ -20,7 +19,7 @@ const InputBool = (props) =>{
             value={defaultval} 
             className="input-select-param marg-0" 
             onChange={(e)=>{
-                props.tuneparam(props.name,e.target.value)
+                props.tuneparam(props.name,Boolean(Number(e.target.value)))
                 defaultState(e.target.value)
             }}
         >

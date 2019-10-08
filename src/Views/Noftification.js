@@ -1,18 +1,26 @@
 function createNotification(type,message){
+    
+    let a = new Date().getTime()
+
     function close(){
-        var elem = document.querySelector('#notif-1');
-        if (elem){
+        var elem = document.getElementById(a);
+        function remove(){
             elem.parentNode.removeChild(elem);
+        }
+        
+        if (elem){
+            elem.className="notification notif-close";
+            setTimeout(remove,900)
         }
     }
 
     let notification = '\
-            <div class="notification" id="notif-1">\
+            <div class="notification" id="'+a+'">\
                 <div class="header">\
                 <div class="title">\
                     '+type+'\
                 </div>\
-                <div class="close" onclick="closenotification('+"1"+')">\
+                <div class="close" onclick="closenotification('+a+')">\
                     X\
                 </div>\
                 </div>\
