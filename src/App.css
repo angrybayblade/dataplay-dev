@@ -140,6 +140,14 @@ a{
   box-shadow: 0px 0px 5px rgba(172, 172, 172, 0.38);
 }
 
+.table-readme{
+  background: white;
+  min-height: 100px;
+  border-radius: 1px;
+  margin: 0px 50px 50px 50px;
+  box-shadow: 0px 0px 5px rgba(172, 172, 172, 0.38);
+}
+
 .table-cont table{
   width: 100%;
   height: auto;
@@ -265,7 +273,7 @@ option{
 .overview-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .overview-col .table-cont {

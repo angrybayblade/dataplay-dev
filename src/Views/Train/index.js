@@ -280,7 +280,7 @@ const Train = (props) =>{
                 user:"viraj"
             }
         }).then(response =>{
-            // console.log(response.data);
+            console.log(response.data);
             if (response.data.status){
                 evaluationState(<Evaluation data={response.data} />);
             }
@@ -349,6 +349,9 @@ const Train = (props) =>{
                         <div className="overview-col">
                             <div className="table-cont" style={{margin:"50px 50px",background:"white"}}>
                                 {evaluation}
+                            </div>
+                            <div className="table-readme" style={{background:"white"}}>
+                                
                             </div>
                         </div>
                     </div>
