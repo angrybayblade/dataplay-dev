@@ -14,11 +14,13 @@ const models = [
                     name:"LinearRegression",
                     package:'sklearn.linear_model',
                     hyper_params:[
-                            {name:"fit_intercept",type:"bool",default:true},
-                            {name:"normalize",type:"bool",default:false},
-                            {name:"n_jobs",type:"num",data:[-1,8,1,2]},
+                            {name:"fit_intercept",type:"bool",default:true,doc:'whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered)'},
+                            {name:"normalize",type:"bool",default:false,doc:"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm. If you wish to standardize, please use sklearn.preprocessing.StandardScaler before calling fit on an estimator with normalize=False"},
+                            {name:"n_jobs",type:"num",data:[-1,8,1,2],doc:"The number of jobs to use for the computation. This will only provide speedup for n_targets > 1 and sufficient large problems. None means 1 unless in a joblib.parallel_backend context. -1 means using all processors. See Glossary for more details."},
+                            // {name:"solver",type:"cat",data:['liblinear','newton-cg', 'lbfgs',  'sag', 'saga'],doc:"Used to specify the norm used in the penalization. The ‘newton-cg’, ‘sag’ and ‘lbfgs’ solvers support only l2 penalties. ‘elasticnet’ is only supported by the ‘saga’ solver. If ‘none’ (not supported by the liblinear solver), no regularization is applied."},
                     ],
                     type:"regression",
+                    doc:"LinearRegression fits a linear model with coefficients  to minimize the residual sum of squares between the observed targets in the dataset, and the targets predicted by the linear approximation. "
                 },
                 {
                     name:'LogisticRegression',
@@ -347,11 +349,48 @@ const Train = (props) =>{
                         </div>
 
                         <div className="overview-col">
-                            <div className="table-cont" style={{margin:"50px 50px",background:"white"}}>
+                            <div className="table-cont" style={{margin:"20px 50px",background:"white",height:"-webkit-fill-available"}}>
                                 {evaluation}
                             </div>
-                            <div className="table-readme" style={{background:"white"}}>
-                                
+                            <div className="table-readme" style={{background:"white",minHeight:"400px"}}>
+                                <div className="title">
+                                    {models[0].name}
+                                </div>
+                                <div className="read-me-cont">
+                                    <div className="algo-doc">
+                                        {models[0].doc}
+                                    </div>
+                                    <div className="read-header">
+                                        Parameters
+                                    </div>
+                                    <div className="read-me-params">
+                                        {models[0].hyper_params.map((param,i)=>{
+                                            return (
+                                                <div className="read-me-param" key={i}>
+                                                    <div className="read-me-param-name">
+                                                        {param.name}
+                                                    </div>
+                                                    <div className="read-me-doc">
+                                                        <div className="read-me-param-vals">
+                                                            <div className="read-me-param-val">
+                                                                True
+                                                            </div>
+                                                            <div className="read-me-param-val">
+                                                                False
+                                                            </div>
+                                                            <div className="read-me-param-val">
+                                                                -1
+                                                            </div>
+                                                        </div>        
+                                                        <div className="read-me-param-doc">
+                                                            {param.doc} 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
